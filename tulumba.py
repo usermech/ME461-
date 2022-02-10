@@ -64,6 +64,7 @@ class tulumba:
         for x,y in target:
             array.append(x,self.myY)
             array.append(x,y)
+        return array
 class Node:
     def __init__(self,row,column,points):
         self.row = row
