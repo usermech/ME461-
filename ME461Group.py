@@ -22,7 +22,7 @@ colorz = {
         'clr1':((100, 10, 200),1, 3)
 }
 
-class tulumba:
+class ME461Group:
 
     def __init__(self, userName, clrDictionary, maxStepSize, maxTime):
 
