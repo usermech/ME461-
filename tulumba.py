@@ -12,5 +12,5 @@ class tulumba:
         self.maxTime = maxTime  # run() is supposed to return before maxTime
 
     def run(self, img, info):
-        list = [[(155,255)]]
+        list = [[155,255]]
         return list
