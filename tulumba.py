@@ -1,8 +1,4 @@
 import numpy as np
-
-
-    
-
 class tulumba:
 
     def __init__(self, userName, clrDictionary, maxStepSize, maxTime):
