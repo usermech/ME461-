@@ -1,4 +1,5 @@
 import numpy as np
+import time
 from queue import PriorityQueue
 greedyLength = 201
 boxSize = 50
