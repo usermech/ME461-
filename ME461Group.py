@@ -45,11 +45,8 @@ class ME461Group:
 
         # get info
         self.info = info
-        for player in info.keys():
-            if self.info[player] == self.name:
-                self.myX = self.info[player][0][0]
-                self.myY = self.info[player][0][1]
-
+        self.myX,self.myY = self.info[player][0]
+        
         # get the nodes closer than 201 steps
         myQueue = PriorityQueue()
         target = []
