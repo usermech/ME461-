@@ -1,4 +1,3 @@
-import numpy as np
 greedyLength = 301
 boxSize = 50
 halfBox = 25
@@ -47,20 +46,19 @@ class tulumba:
         for row in self.grid:
             for node in row:
                 
-                node.x_dist(self.myX)
-                node.y_dist(self.myY)
-                node.manDistance()
+                dX = node.x_dist(self.myX)
+                dY = node.y_dist(self.myY)
+                manDistance = dX + dY
+            
                  
-                if node.man < greedyLength:
+                if manDistance < greedyLength:
                     for dClr in colorz:
                         if tuple(img[node.x, node.y, :]) == colorz[dClr][0]:
                             node.update_points(colorz[dClr][1])
                         
-                    if node.man-node.points*2 < myQueue[0] and not node.points == 0:
-                        myQueue[0] = node.man-node.points
+                    if manDistance - (node.points*2) < myQueue[0] and not node.points == 0:
+                        myQueue[0] = manDistance - (node.points*2)
                         target = [node.x,node.y]
-                        
-        
         x,y = target
         #call create route here
         routeX,routeY = create_route(self.myX,x,self.myY,y)
@@ -70,7 +68,7 @@ class tulumba:
         
         if get_distance(x,self.myX,y,self.myY) < 95:
             ##make it a function after here and call it
-            self.myX,self.myY = array[-1]
+            self.myX2,self.myY2 = array[-1]
             myQueue = [float("inf")]
             target = []
             for row in self.grid:
@@ -80,19 +78,18 @@ class tulumba:
                     else:  
                         pass  
                     
-                    node.x_dist(self.myX)
-                    node.y_dist(self.myY)
-                    node.manDistance()
+                    dX = node.x_dist(self.myX2)
+                    dY = node.y_dist(self.myY2)
+                    manDistance = dX + dY
                     
-                    if node.man < greedyLength:
+                    if manDistance < greedyLength:
                         
-                        if node.man-node.points*2 < myQueue[0] and not node.points == 0:
+                        if manDistance -(node.points*2) < myQueue[0] and not node.points == 0:
                                 
-                            myQueue[0] = node.man-node.points
+                            myQueue[0] = manDistance-(node.points*2)
                             target = [node.x,node.y]
-           
             x,y = target
-            routeX,routeY = create_route(self.myX,x,self.myY,y)
+            routeX,routeY = create_route(self.myX2,x,self.myY2,y)
             array.append(routeX)
             array.append(routeY)
             array = [ele for ele in array if ele != []]
@@ -104,19 +101,19 @@ def create_route(x1,x2,y1,y2):
     rx = [x1,y1]
     
     if x1 >=  x2 + 25:
-        rx = [x2+24,y1]
-        ry = [x2+24,y1]
+        rx = [x2+23,y1]
+        ry = [x2+23,y1]
     elif x1 <= x2 -25:
-        rx = [x2-24,y1]
-        ry = [x2-24,y1]
+        rx = [x2-23,y1]
+        ry = [x2-23,y1]
     else:
         rx =[]
         ry = [x1,y1]
            
     if y1 >=  y2 + 25:
-        ry[1] = y2 + 24
+        ry[1] = y2 + 23
     elif y1 <= y2 -25:
-        ry[1] = y2 - 24
+        ry[1] = y2 - 23
     else:
         ry = []
     
@@ -138,13 +135,11 @@ class Node:
         self.points = points
 
     def x_dist(self,myX):
-        self.dX = abs(myX - self.x)
+        dX = abs(myX - self.x)
+        return dX
         
 
     def y_dist(self,myY):
-        self.dY = abs(myY - self.y)
-        
-
-    def manDistance(self):
-        self.man = self.dX + self.dY
+       dY = abs(myY - self.y)
+       return dY
         
