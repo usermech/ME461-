@@ -1,3 +1,5 @@
+#enter your coordinates as (x1,y1) and center coordinates of target cell as (x2,y2)
+
 def create_route(x1,x2,y1,y2):
     array =[[],[]]
     
