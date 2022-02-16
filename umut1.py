@@ -65,7 +65,7 @@ class tulumba:
                             if tuple(img[node.x, node.y, :]) == colorz[dClr][0]:
                                 node.update_points(colorz[dClr][1])
                                 if node.points > self.point:
-                                    node.points = float("inf")
+                                    node.points = float("-inf")
                                 elif node.points == self.point:
                                     target = [node.x,node.y]
                                     flag = True
