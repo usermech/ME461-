@@ -175,7 +175,7 @@ class tulumba:
         my_path[0] = (dummyStep[-1][0],dummyStep[-1][1])
             
         
-        for i in range(1,len(my_path)-1):
+        for i in range(1,len(my_path)):
             dummyStep = free_corridor(my_path[i-1][0],my_path[i-1][1],my_path[i][0],my_path[i][1])
             resultantPath.append(dummyStep)
             my_path[i] = (dummyStep[-1][0],dummyStep[-1][1])
