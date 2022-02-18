@@ -45,6 +45,7 @@ class tulumba:
 
     def run(self, img, info):  # img is a 2D numpy array, info is a dictionary
         self.oppPos = []  # list of opponent's positions
+        self.oppPoints = []  # list of opponent's positions
         self.scores = []  # list of scores
         self.info = info  # dictionary of info
         self.myPos=self.info[self.name][0]  # your position
@@ -54,13 +55,15 @@ class tulumba:
         for player in self.info:  # for each player
             if player != self.name:  # if it's not you
                 self.oppPos.append(self.info[player][0])  # add the position to the list of opponent's positions
+                self.oppPoints.append(self.info[player][1])
         for i in range(7):  # for each castle
             for j in range(7):
                 self.arena[2*i+1][2*j+1] = self.colorVals[tuple(img[(2*i+1)*50+25][(2*j+1)*50+25])] # add the color value to the arena
                 if self.arena[2*i+1][2*j+1] != 0:  # if the color value is not 0
                     self.scores.append([self.arena[2*i+1][2*j+1],(25+(2*i+1)*50,25+(2*j+1)*50),(2*i+1,2*j+1)])  # add the score to the list
-                    # self.scores
+                   
         self.scores.sort(key=lambda x: x[0], reverse=True) # sort the scores in descending order
+        
         if not len(self.oppPos):
             return self.soloRunner()
         if self.startCount == 0:
@@ -80,7 +83,7 @@ class tulumba:
                 self.scores[i][0] = -1  # set the color value to -1
             else:
                 for j in range(len(self.oppPos)):  # for each opponent
-                    if not self.amICloser(self.scores[i][1],self.oppPos[j]) and self.scores[i][0]< self.oppPos[j]:  # if the opponent is closer to the castle
+                    if (not self.amICloser(self.scores[i][1],self.oppPos[j])) and (self.scores[i][0]< self.oppPoints[j]):  # if the opponent is closer to the castle
                         self.scores[i][0] = 0  # set the score to 0
                     else:    # if the opponent is not closer to the castle
                         counter+=1  # add 1 to the counter
@@ -90,7 +93,7 @@ class tulumba:
         for i in range(len(self.scores)): # for each score
             if self.scores[i][0] != -1: # if the color value is less than or equal to your points
                 return self.scores[i][2]  # return the coordinates of the castle
-    
+        return [425,325]
     def chooseRoute(self, target):  # target is a coordinate
         costMap = np.ones((15,15),dtype=int)*100  # create a 15x15 cost map
         imin=max(min(self.my_ij[0],target[0])-1,0) 
@@ -115,9 +118,9 @@ class tulumba:
     def move(self,selectedPath):  # selectedPath is a list of coordinates in the arena
         selectedPath.reverse()  # reverse the path
         selectedPath.pop(0)
+        
         if len(selectedPath) > 3:
             if (self.arena[selectedPath[0][0],selectedPath[0][1]]+self.arena[selectedPath[1][0],selectedPath[1][1]]+self.arena[selectedPath[2][0],selectedPath[2][1]])>self.myPoints:
-                print('313131')
                 if self.arena[selectedPath[2]] > self.arena[selectedPath[0]]:
                     selectedPath.pop(0)
                 else:
@@ -125,7 +128,7 @@ class tulumba:
             if self.myPoints <= 100:
                 for i,j in selectedPath:
                     if(self.arena[i][j])== self.myPoints:
-                        print('The one true path is found {},{}'.format(i,j))
+                        
                         return free_corridor(self.myPos[0],self.myPos[1],i*50+25,j*50+25)
                 
 
@@ -144,6 +147,7 @@ class tulumba:
         
             for i in range(1,len(selectedPath)):
                 path.append(create_myroute(path[i-1][0], selectedPath[i][0], path[i-1][1], selectedPath[i][1]))
+       
         return path 
 
     def amICloser(self, castle, opponent):  # castle is a coordinate, opponent is a coordinate
