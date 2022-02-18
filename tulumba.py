@@ -22,7 +22,7 @@ class Node:
     def __str__(self):
         return str(self.pos)
 
-class tulumba:
+class tulumbayedek3:
 
     def __init__(self, userName, clrDictionary, maxStepSize, maxTime):
         self.name = userName # your object will be given a user name, i.e. your group name
@@ -93,7 +93,7 @@ class tulumba:
         for i in range(len(self.scores)): # for each score
             if self.scores[i][0] != -1: # if the color value is less than or equal to your points
                 return self.scores[i][2]  # return the coordinates of the castle
-        return [425,325]
+        return [6,6]
     def chooseRoute(self, target):  # target is a coordinate
         costMap = np.ones((15,15),dtype=int)*100  # create a 15x15 cost map
         imin=max(min(self.my_ij[0],target[0])-1,0) 
@@ -119,17 +119,27 @@ class tulumba:
         selectedPath.reverse()  # reverse the path
         selectedPath.pop(0)
         
-        if len(selectedPath) > 3:
+        if len(selectedPath) > 3 and self.myPoints <= 100:
+            for i,j in selectedPath:
+                    if(self.arena[i][j]) == self.myPoints:
+                        return free_corridor(self.myPos[0],self.myPos[1],i*50+25,j*50+25)
+
             if (self.arena[selectedPath[0][0],selectedPath[0][1]]+self.arena[selectedPath[1][0],selectedPath[1][1]]+self.arena[selectedPath[2][0],selectedPath[2][1]])>self.myPoints:
                 if self.arena[selectedPath[2]] > self.arena[selectedPath[0]]:
-                    selectedPath.pop(0)
+                    return free_corridor(self.myPos[0],self.myPos[1],selectedPath[2][0]*50+25,selectedPath[2][1]*50+25)
+                elif self.arena[selectedPath[2]] < self.arena[selectedPath[0]]:
+                    return free_corridor(self.myPos[0],self.myPos[1],selectedPath[0][0]*50+25,selectedPath[0][1]*50+25)
                 else:
-                    selectedPath.pop(2)
-            if self.myPoints <= 100:
-                for i,j in selectedPath:
-                    if(self.arena[i][j])== self.myPoints:
+                    return free_corridor(self.myPos[0],self.myPos[1],selectedPath[1][0]*50+25,selectedPath[1][1]*50+25)
+
+
+                
+            
+                
+                
+                
                         
-                        return free_corridor(self.myPos[0],self.myPos[1],i*50+25,j*50+25)
+
                 
 
         for i in range(len(selectedPath)):
