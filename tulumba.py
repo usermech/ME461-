@@ -22,7 +22,7 @@ class Node:
     def __str__(self):
         return str(self.pos)
 
-class tulumbayedek3:
+class tulumba:
 
     def __init__(self, userName, clrDictionary, maxStepSize, maxTime):
         self.name = userName # your object will be given a user name, i.e. your group name
